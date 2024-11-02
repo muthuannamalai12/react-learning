@@ -1,0 +1,30 @@
+{
+  "name": "react-learning",
+  "version": "1.0.0",
+  "description": "I am learning react",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muthuannamalai12/react-learning.git"
+  },
+  "author": "Muthu Annamalai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muthuannamalai12/react-learning/issues"
+  },
+  "homepage": "https://github.com/muthuannamalai12/react-learning#readme",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "browserslist": [
+    "last two chrome versions"
+  ]
+}

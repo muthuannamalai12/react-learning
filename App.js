@@ -1,3 +1,6 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+
 // Creates a h1 tag and prints Hello World From React
 // const heading = React.createElement("h1", {id: "heading", xyz: "abc"}, "Hello World From React!!");
 
@@ -27,17 +30,6 @@ const parent = React.createElement(
   </div>
 </div>
 */
-
-<div id="parent">
-  <div id="child1">
-    <h1>I'm h1 tag</h1>
-    <h2>I'm h2 tag</h2>
-  </div>
-  <div id="child2">
-    <h1>I'm h1 tag</h1>
-    <h2>I'm h2 tag</h2>
-  </div>
-</div>;
 
 /*Structure
 <div id="parent">
