@@ -2,8 +2,9 @@
   "name": "react-learning",
   "version": "1.0.0",
   "description": "I am learning react",
-  "main": "App.js",
   "scripts": {
+    "start" : "parcel hello-world-using-react.html",
+    "build" : "parcel build hello-world-using-react.html",
     "test": "jest"
   },
   "repository": {
@@ -25,6 +26,6 @@
     "react-dom": "^18.3.1"
   },
   "browserslist": [
-    "last two chrome versions"
+    "last 2 versions"
   ]
 }

@@ -1,85 +1,51 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Creates a h1 tag and prints Hello World From React
-// const heading = React.createElement("h1", {id: "heading", xyz: "abc"}, "Hello World From React!!");
+const elem = <span>Hello World From Span Element</span>;
 
-/* Structure
-<div id="parent">
-  <div id="child">
-    <h1>I'm h1 tag</h1>
-  </div>
-</div>
+/*
+JSX is not HTML in JS but it has HTML-like syntax.
+Both heading and jsxHeading are ReactElements which, at the end of the day, are JavaScript objects.
+JSX is not valid and pure JavaScript.
+Browsers do not understand JSX; Babel converts/transpiles it to React code.
+In the background, Babel uses React.createElement.
 */
-
-const parent = React.createElement(
-  "div",
-  { id: "parent" },
-  React.createElement(
-    "div",
-    { id: "child" },
-    React.createElement("h1", {}, "I'm h1 tag")
-  )
+// React Element
+const heading = (
+  <h1 className="head" tabIndex={5}>
+    {elem}
+    Hello World From React Element
+  </h1>
 );
 
-/* Structure
-<div id="parent">
-  <div id="child">
-    <h1>I'm h1 tag</h1>
-    <h2>I'm h2 tag</h2>
-  </div>
-</div>
-*/
-
-/*Structure
-<div id="parent">
-  <div id="child1">
-    <h1>I'm h1 tag</h1>
-    <h2>I'm h2 tag</h2>
-  </div>
-  <div id="child2">
-    <h1>I'm h1 tag</h1>
-    <h2>I'm h2 tag</h2>
-  </div>
-</div>
-*/
-
-const parent1 = React.createElement(
-  "div",
-  { id: "parent" },
-  React.createElement("div", { id: "child" }, [
-    React.createElement("h1", {}, "I'm h1 tag"),
-    React.createElement("h2", {}, "I'm h2 tag"),
-  ])
+// React Element Converted to Component
+const Title = () => (
+  <h1 className="head" tabIndex={5}>
+    Hello World From Jsx
+  </h1>
 );
 
-// Structure
-// <div id="parent">
-//   <div id - "child1">
-//     <h1>I'm h1 tag</h1>
-//     <h2>I'm h2 tag</h1>
-//   </div>
-//   <div id - "child2">
-//     <h1>I'm h1 tag</h1>
-//     <h2>I'm h2 tag</h1>
-//   </div>
-//<div>
+const number = 1000;
 
-const parent2 = React.createElement("div", { id: "parent" }, [
-  React.createElement("div", { id: "child" }, [
-    React.createElement("h1", {}, "I'm h1 tag"),
-    React.createElement("h2", {}, "I'm h2 tag"),
-  ]),
-  React.createElement("div", { id: "child2" }, [
-    React.createElement("h1", {}, "I'm h1 tag"),
-    React.createElement("h2", {}, "I'm h2 tag"),
-  ]),
-]);
+/*
+All the 3 implementation of title have the same meaning
+We can put element inside a component, a component inside a element and mix and match according to our needs 
+*/
+// React Functional Component
+const HeaderComponent = () => (
+  <div id="container">
+    <Title></Title>
+    <Title />
+    {Title()}
+    {heading}
+    <h1 className="heading">Hello World From Functional Component</h1>;
+  </div>
+);
+
+// Using Arrow Function
+// const HeaderComponent = () => <h1>Hello World From Functional Component</h1>;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// Used to render the parent structure
-// root.render(parent);
-// Used to render the parent 1 structure
-// root.render(parent1);
-// Used to render the parent 2 structure
-root.render(parent2);
+
+// root.render(jsxHeading);
+root.render(<HeaderComponent />);
