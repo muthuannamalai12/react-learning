@@ -99,17 +99,29 @@ const Body = () => {
     <ShimmerUI />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="search">
+      {/* flex makes the component come side by side */}
+      <div className="filter flex">
+        {/* 
+          -> p-4 provides padding 1 rem along all the sides
+          -> m-4 provides margin 1 rem alone all the sides 
+        */}
+        <div className="m-4 p-4">
           <input
             type="text"
-            className="serxh-box"
+            // border border-solid border-black : Provides solid black border around the input box
+            className="border border-solid border-black"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           ></input>
           <button
+            /* 
+            -> px-4 Provides padding 1rem on x axis (i.e) on left and right sides
+            -> py-2 Provides padding 0.5rem on y axis (i.e) on top and bottom sides
+            -> bg-green-100 Provides background color green
+           */
+            className="px-4 py-2 bg-green-100 m-4 rounded-lg"
             onClick={() => {
               filterBySearchText(searchText);
             }}
@@ -117,17 +129,31 @@ const Body = () => {
             Search
           </button>
         </div>
-        <button
-          className="filter-btn"
-          //Using state variable
-          onClick={() => {
-            filterByRating(4);
-          }}
-        >
-          Top Rated Restaurant
-        </button>
+        {/* 
+          -> m-4 provides margin 1 rem alone all the sides 
+          -> p-4 provides padding 1 rem along all the sides
+          -> * flex items-center : Makes the items centered 
+        */}
+        <div className="m-4 p-4 flex items-center">
+          <button
+            /* 
+            -> px-4 Provides padding 1rem on x axis (i.e) on left and right sides
+            -> py-2 Provides padding 0.5rem on y axis (i.e) on top and bottom sides
+            -> bg-gray-100 Provides background color grey
+            -> rounded-lg makes the button rounded
+           */
+            className="px-4 py-2 bg-gray-100 rounded-lg"
+            //Using state variable
+            onClick={() => {
+              filterByRating(4);
+            }}
+          >
+            Top Rated Restaurant
+          </button>
+        </div>
       </div>
-      <div className="restaurant-container">
+      {/* flex flex-wrap : Makes the cards come side by side  */}
+      <div className="flex flex-wrap">
         {/* {listofRestaurants.map((restaurant) => (
           <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))} */}
