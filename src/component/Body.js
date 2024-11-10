@@ -2,30 +2,39 @@ import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import ShimmerUI from "./ShimmerUI";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../../utils/useOnlineStatus";
+import useRestaurantsDataList from "../../utils/useRestaurantsDataList";
 
 const Body = () => {
   // useState with mock data reslist
-  const [listofRestaurants, setListOfRestaurants] = useState([]);
-  const [filterListOfRestaurants, setFilteredListOfRestaurants] = useState([]);
+  // const [listofRestaurants, setListOfRestaurants] = useState([]);
+  // const [filterListOfRestaurants, setFilteredListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  // This useEffect would be rendered once the body component mounts
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // // This useEffect would be rendered once the body component mounts
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9480472&lng=80.1309948&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    setListOfRestaurants(
-      json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredListOfRestaurants(
-      json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
+  // const fetchData = async () => {
+  //   const data = await fetch(
+  //     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9480472&lng=80.1309948&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  //   );
+  //   const json = await data.json();
+  //   setListOfRestaurants(
+  //     json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+  //   );
+  //   setFilteredListOfRestaurants(
+  //     json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+  //   );
+  // };
+
+  const {
+    listOfRestaurants,
+    filterListOfRestaurants,
+    filterBySearchText,
+    filterByRating,
+  } = useRestaurantsDataList();
 
   // Example to make POST API Call using Fetch
   const updateData = async () => {
@@ -79,8 +88,14 @@ const Body = () => {
   //   return <ShimmerUI />;
   // }
 
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false) {
+    return <h1>Oops You went Offline</h1>;
+  }
+
   // using ternary operator performing conditional rendering
-  return listofRestaurants.length === 0 ? (
+  return listOfRestaurants.length === 0 ? (
     <ShimmerUI />
   ) : (
     <div className="body">
@@ -96,10 +111,7 @@ const Body = () => {
           ></input>
           <button
             onClick={() => {
-              const filteredList = listofRestaurants.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-              );
-              setFilteredListOfRestaurants(filteredList);
+              filterBySearchText(searchText);
             }}
           >
             Search
@@ -109,10 +121,7 @@ const Body = () => {
           className="filter-btn"
           //Using state variable
           onClick={() => {
-            const filteredList = listofRestaurants.filter(
-              (res) => res.info.avgRating > 4
-            );
-            setListOfRestaurants(filteredList);
+            filterByRating(4);
           }}
         >
           Top Rated Restaurant

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./component/Header";
 import Body from "./component/Body";
-import About from "./component/About";
+// import About from "./component/About";
 import Contact from "./component/Contact";
 import Error from "./component/Error";
 import RestaurantMenu from "./component/RestaurantMenu";
+// import Grocery from "./component/Grocery";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import ShimmerUI from "./component/ShimmerUI";
 
 /**
  * Header
@@ -24,6 +26,10 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
  *  - Address
  *  - Contact
  */
+
+const Grocery = lazy(() => import("./component/Grocery"));
+
+const About = lazy(() => import("./component/About"));
 
 const AppLayout = () => {
   return (
@@ -45,11 +51,23 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: (
+          <Suspense fallback={<ShimmerUI />}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<ShimmerUI />}>
+            <Grocery />
+          </Suspense>
+        ),
       },
       {
         path: "/restaurants/:resId",
