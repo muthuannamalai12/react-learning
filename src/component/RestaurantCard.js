@@ -1,4 +1,6 @@
-import { CDN_URL } from "../../utils/constants";
+import { useContext } from "react";
+import { CDN_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
 const RestaurantCard = (props) => {
   // Destructuring the array after obtaining it as parameters
@@ -12,6 +14,8 @@ const RestaurantCard = (props) => {
     costForTwo,
     deliveryTime,
   } = resData?.info;
+  const userName = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   return (
     /*
     -> p-4 provides padding 1 rem along all the sides
@@ -34,8 +38,23 @@ const RestaurantCard = (props) => {
       <h4>{cuisines.join(", ")}</h4>
       <h4>{costForTwo}</h4>
       <h4>{deliveryTime}</h4>
+      {/* <h4>{userName.loggedInUser}</h4> */}
+      <h4>{loggedInUser}</h4>
     </div>
   );
+};
+
+export const withPromotedLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute bg-black text-white m-2 p-2 rounded-lg">
+          Promoted
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
 };
 
 export default RestaurantCard;

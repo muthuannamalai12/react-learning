@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import { useContext, useEffect, useState } from "react";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import ShimmerUI from "./ShimmerUI";
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../../utils/useOnlineStatus";
-import useRestaurantsDataList from "../../utils/useRestaurantsDataList";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import useRestaurantsDataList from "../utils/useRestaurantsDataList";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   // useState with mock data reslist
   // const [listofRestaurants, setListOfRestaurants] = useState([]);
   // const [filterListOfRestaurants, setFilteredListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   // // This useEffect would be rendered once the body component mounts
   // useEffect(() => {
@@ -28,6 +31,8 @@ const Body = () => {
   //     json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
   //   );
   // };
+
+  const RestaurantWithPromotedLabel = withPromotedLabel(RestaurantCard);
 
   const {
     listOfRestaurants,
@@ -151,6 +156,15 @@ const Body = () => {
             Top Rated Restaurant
           </button>
         </div>
+        <div className="m-2 p-2 flex items-center">
+          <input
+            className="border border-black"
+            value={loggedInUser}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          ></input>
+        </div>
       </div>
       {/* flex flex-wrap : Makes the cards come side by side  */}
       <div className="flex flex-wrap">
@@ -162,7 +176,11 @@ const Body = () => {
             to={"/restaurants/" + restaurant.info.id}
             key={restaurant.info.id}
           >
-            <RestaurantCard resData={restaurant} />
+            {restaurant.info.avgRating > 4.2 ? (
+              <RestaurantWithPromotedLabel resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
           </Link>
         ))}
       </div>

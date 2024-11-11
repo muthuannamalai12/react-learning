@@ -1,11 +1,14 @@
-import { LOGO_URL } from "../../utils/constants";
-import { useState } from "react";
+import { LOGO_URL } from "../utils/constants";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../../utils/useOnlineStatus";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const [buttonName, setButtonName] = useState("Login");
   const onlineStatus = useOnlineStatus();
+  const userName = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   return (
     /*
     -> flex used to make the image and ul items come side by side
@@ -56,6 +59,8 @@ const Header = () => {
           >
             {buttonName}
           </button>
+          {/* <li className="px-4">{userName.loggedInUser}</li> */}
+          <li className="px-4 font-bold">{loggedInUser}</li>
         </ul>
       </div>
     </div>

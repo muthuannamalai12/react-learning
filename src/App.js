@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./component/Header";
 import Body from "./component/Body";
@@ -9,6 +9,7 @@ import RestaurantMenu from "./component/RestaurantMenu";
 // import Grocery from "./component/Grocery";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import ShimmerUI from "./component/ShimmerUI";
+import UserContext from "./utils/UserContext";
 
 /**
  * Header
@@ -32,11 +33,29 @@ const Grocery = lazy(() => import("./component/Grocery"));
 const About = lazy(() => import("./component/About"));
 
 const AppLayout = () => {
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    //API Call
+    const data = {
+      loggedInUser: "Muthu",
+    };
+    setUserName(data.loggedInUser);
+  }, []);
   return (
-    <div className="app">
-      <Header />
-      <Outlet />
-    </div>
+    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+      <div className="app">
+        {/*
+          -> Header Component alone Annamalai Remaining Everywhere Muthu
+          -> When the user context is wrapped within a component it will provide value for that component alone
+        */}
+        {/* <UserContext.Provider
+          value={{ loggedInUser: "Annamalai", setUserName }}
+        > */}
+        <Header />
+        {/* </UserContext.Provider> */}
+        <Outlet />
+      </div>
+    </UserContext.Provider>
   );
 };
 

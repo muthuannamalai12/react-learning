@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import ShimmerUI from "./ShimmerUI";
 import { useParams } from "react-router-dom";
-import useRestaurantMenu from "../../utils/useRestaurantMenu";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
+
+  const [showIndex, setShowIndex] = useState(null);
 
   const resList = useRestaurantMenu(resId);
 
@@ -18,49 +21,38 @@ const RestaurantMenu = () => {
   const { itemCards } =
     resList?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
 
+  const categories =
+    resList?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (category) =>
+        category?.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
   return (
-    <div className="restaurant-menu-container">
+    // Makes the text center
+    <div className="text-center">
       {/*
         -> font bold makes the text bold
-        -> py-4 : Provides padding 1rem on y axis (i.e) on top and bottom sides
-        -> text-lg makes the text large and we also have medium(md) and small(sm) sizes
+        -> my-6 : Provides margin 1.5 rem on y axis (i.e) on top and bottom sides
+        -> text-2xl makes the text 2 xlarge and we also have medium(md) and small(sm) sizes
       */}
-      <h1 className="font-bold py-4 m-1 text-lg">{name}</h1>
+      <h1 className="font-bold my-6 text-2xl">{name}</h1>
       {/* 
-        -> m-1 provides margin 0.25 rem alone all the sides 
-        -> p-1 provides padding 0.25 rem alone all the sides 
+        -> font bold makes the text bold
+        -> text-lg makes the text larger
       */}
-      <p className="m-1 p-1">
+      <p className="font-bold text-lg">
         {cuisines.join(", ") + " - " + costForTwoMessage}
       </p>
-      {/* 
-        -> m-1 provides margin 0.25 rem alone all the sides 
-        -> p-1 provides padding 0.25 rem alone all the sides 
-      */}
-      <h3 className="m-1 p-1">{avgRating}</h3>
-      {/*
-        -> font bold makes the text bold
-        -> py-4 : Provides padding 1rem on y axis (i.e) on top and bottom sides
-        -> m-1 provides margin 0.25 rem alone all the sides 
-        -> text-lg makes the text large and we also have medium(md) and small(sm) sizes
-      */}
-      <h3 className="font-bold py-4 m-1 text-lg">Menu</h3>
-      {/* 
-        -> m-1 provides margin 0.25 rem alone all the sides 
-        -> p-1 provides padding 0.25 rem along all the sides
-    */}
-      <ul className="m-1 p-1">
-        {itemCards.map((item) => (
-          <li key={item.card.info.id}>
-            {item.card.info.name} - {"Rs "}
-            {item.card.info.price / 100 || item.card.info.defaultPrice / 100}
-          </li>
-        ))}
-        {/* Normal way of displaying data 
-        <li>{itemCards[0].card.info.name}</li>
-        <li>{itemCards[1].card.info.name}</li>
-        <li>{itemCards[2].card.info.name}</li> */}
-      </ul>
+      {/* categories accordians */}
+      {categories.map((category, index) => (
+        <RestaurantCategory
+          data={category?.card?.card}
+          showItems={index === showIndex && true}
+          // setShowIndex={() => setShowIndex(index)}
+          setShowIndex={() => setShowIndex(index === showIndex ? null : index)} // Toggle logic
+        />
+      ))}
     </div>
   );
 };
