@@ -3,12 +3,19 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [buttonName, setButtonName] = useState("Login");
   const onlineStatus = useOnlineStatus();
   const userName = useContext(UserContext);
   const { loggedInUser } = useContext(UserContext);
+  // Subscribing to the store using a Selector
+  const cartItems = useSelector((store) => store.cart.items);
+  // Do not do below causes a lot of performance issues. If anything changes in store we will be subscribed that is not best appraoch always point to correct data
+  // const store = useSelector((store) => store);
+  // const cartItems = store.cart.items;
+
   return (
     /*
     -> flex used to make the image and ul items come side by side
@@ -49,7 +56,9 @@ const Header = () => {
             <Link to="/grocery">Grocery</Link>
           </li>
           {/* px-4 : Provides padding 1rem on x axis (i.e) on left and right sides */}
-          <li className="px-4">Cart</li>
+          <li className="px-4 font-bold">
+            <Link to="/cart">Cart - ({cartItems.length} items)</Link>
+          </li>
           <button
             onClick={() => {
               buttonName === "Login"
@@ -60,7 +69,7 @@ const Header = () => {
             {buttonName}
           </button>
           {/* <li className="px-4">{userName.loggedInUser}</li> */}
-          <li className="px-4 font-bold">{loggedInUser}</li>
+          <li className="px-4">{loggedInUser}</li>
         </ul>
       </div>
     </div>

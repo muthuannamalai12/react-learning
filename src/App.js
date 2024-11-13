@@ -10,6 +10,9 @@ import RestaurantMenu from "./component/RestaurantMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import ShimmerUI from "./component/ShimmerUI";
 import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Cart from "./component/Cart";
 
 /**
  * Header
@@ -42,20 +45,22 @@ const AppLayout = () => {
     setUserName(data.loggedInUser);
   }, []);
   return (
-    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
-      <div className="app">
-        {/*
+    <Provider store={appStore}>
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        <div className="app">
+          {/*
           -> Header Component alone Annamalai Remaining Everywhere Muthu
           -> When the user context is wrapped within a component it will provide value for that component alone
         */}
-        {/* <UserContext.Provider
+          {/* <UserContext.Provider
           value={{ loggedInUser: "Annamalai", setUserName }}
         > */}
-        <Header />
-        {/* </UserContext.Provider> */}
-        <Outlet />
-      </div>
-    </UserContext.Provider>
+          <Header />
+          {/* </UserContext.Provider> */}
+          <Outlet />
+        </div>
+      </UserContext.Provider>
+    </Provider>
   );
 };
 
@@ -91,6 +96,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurants/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
     errorElement: <Error />,
