@@ -26,7 +26,10 @@ const RestaurantCard = (props) => {
     -> When not in hover it will have bg-gray-100
     -> Height is taken care by default depending on the values coming from the API call
     */
-    <div className="m-4 p-4 w-[250px] rounded-lg bg-gray-100 hover:bg-gray-200">
+    <div
+      data-testid="resCard"
+      className="m-4 p-4 w-[250px] rounded-lg bg-gray-100 hover:bg-gray-200"
+    >
       <img className="restaurant-logo" src={CDN_URL + cloudinaryImageId} />
       {/*
         -> font bold makes the text bold

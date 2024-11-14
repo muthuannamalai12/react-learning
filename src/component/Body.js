@@ -41,53 +41,6 @@ const Body = () => {
     filterByRating,
   } = useRestaurantsDataList();
 
-  // Example to make POST API Call using Fetch
-  const updateData = async () => {
-    const data = {
-      lat: 12.9480472,
-      lng: 80.1309948,
-      nextOffset: "CJhlELQ4KIDA8ITb0YqqCjCnEw==",
-      widgetOffset: {
-        NewListingView_category_bar_chicletranking_TwoRows: "",
-        NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
-        Restaurant_Group_WebView_SEO_PB_Theme: "",
-        collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: "24",
-        inlineFacetFilter: "",
-        restaurantCountWidget: "",
-      },
-      filters: {},
-      seoParams: {
-        seoUrl: "https://www.swiggy.com/",
-        pageType: "FOOD_HOMEPAGE",
-        apiName: "FoodHomePage",
-      },
-      page_type: "DESKTOP_WEB_LISTING",
-      _csrf: "EhUtFQhwqssu-3jE14TzIsDBGIvQUcoMVI2vN1YA",
-    };
-
-    const updatedData = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/update",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    const json = await updatedData.json();
-    setListOfRestaurants((prevList) => [
-      ...prevList,
-      ...json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants,
-    ]);
-    setFilteredListOfRestaurants((prevList) => [
-      ...prevList,
-      ...json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants,
-    ]);
-  };
-
   // Conditional Rendering - Rendering based on the condition
   // if (listofRestaurants.length === 0) {
   //   return <ShimmerUI />;
@@ -113,6 +66,7 @@ const Body = () => {
         <div className="m-4 p-4">
           <input
             type="text"
+            data-testid="searchInput"
             // border border-solid border-black : Provides solid black border around the input box
             className="border border-solid border-black"
             value={searchText}
@@ -158,6 +112,7 @@ const Body = () => {
         </div>
         <div className="m-2 p-2 flex items-center">
           <input
+            data-testId="searchInputContext"
             className="border border-black"
             value={loggedInUser}
             onChange={(e) => {
